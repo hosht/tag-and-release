@@ -11,7 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      ref: "${github.ref}"
+      with:
+        ref: "${github.ref}"
 
     - uses: actions/setup-go@v2
       with:
