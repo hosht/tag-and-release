@@ -17,4 +17,4 @@ jobs:
         go-version: ^1.15
 
     - name: Echo GitHub Ref
-      run: echo "${github.ref}"
+      run: echo $GITHUB_REF
