@@ -29,7 +29,9 @@ jobs:
 
     - name: check main branch
       if: ${{ steps.get-branch-name.outputs.BRANCH }} != "main" && ${{ steps.get-branch-name.outputs.BRANCH }} != "master"
-      run: exit 1
+      run: |
+        echo "${{ steps.get-branch-name.outputs.BRANCH }} is not allowed"
+        exit 1
 
     - uses: actions/setup-go@v2
       with:
