@@ -28,7 +28,7 @@ jobs:
       id: get-branch-name
 
     - name: check main branch
-      if: ${{ steps.get-tag.outputs.TAG }} != "main"
+      if: ${{ steps.get-branch-name.outputs.BRANCH }} != "main" && ${{ steps.get-branch-name.outputs.BRANCH }} != "master"
       run: exit 1
 
     - uses: actions/setup-go@v2
