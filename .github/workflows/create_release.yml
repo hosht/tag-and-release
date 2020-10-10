@@ -10,29 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: nelonoel/branch-name@v1
+
     - name: Get tag
-      run: |
-        TAG=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
-        echo ::set-output name=TAG::$TAG
+      run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
       id: get-tag
 
     - uses: actions/checkout@v2
       with:
-        ref: ${{ steps.get-tag.outputs.TAG }}
         fetch-depth: 0
 
-    - name: Get tagged branch name
-      run: |
-        git branch --show-current
-        BRANCH=$(git branch --show-current)
-        echo $BRANCH
-        echo ::set-output name=BRANCH::$BRANCH
-      id: get-branch-name
-
     - name: check main branch
-      if: ${{ steps.get-branch-name.outputs.BRANCH }} != "main" && ${{ steps.get-branch-name.outputs.BRANCH }} != "master"
+      if: ${ BRANCH_NAME } != "main" && ${ BRANCH_NAME } != "master"
       run: |
-        echo "${{ steps.get-branch-name.outputs.BRANCH }} is not allowed"
+        echo "${ BRANCH_NAME } is not allowed"
         exit 1
 
     - uses: actions/setup-go@v2
@@ -41,6 +32,7 @@ jobs:
 
     - name: Create changelog
       run: |
+        echo ${ GITHUB_SHA }
         go get github.com/Songmu/ghch/cmd/ghch
         ghch --latest --format markdown > changelog.md
 
