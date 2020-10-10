@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: nelonoel/branch-name@v1
-
     - name: Get tag
       run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
       id: get-tag
@@ -19,6 +17,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - uses: nelonoel/branch-name@v1
+    - run: echo ${BRANCH_NAME}
 
     - name: check main branch
       if: ${BRANCH_NAME} != 'main' && ${BRANCH_NAME} != 'master'
