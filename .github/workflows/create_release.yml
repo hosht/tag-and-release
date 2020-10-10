@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     - name: Get tag
-      run: echo "::set-output name=TAG::`echo "${github.ref}" | awk -F'/' '{print $3}'`"
+      run: |
+        TAG=$(echo "$GITHUB_REF" | awk -F / '{print $3}')
+        echo ::set-output name=TAG::$TAG
       id: get-tag
 
     steps:
