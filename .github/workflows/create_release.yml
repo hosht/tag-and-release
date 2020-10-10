@@ -23,7 +23,9 @@ jobs:
 
     - name: Get tagged branch name
       run: |
+        git branch --show-current
         BRANCH=$(git branch --show-current)
+        echo $BRANCH
         echo ::set-output name=BRANCH::$BRANCH
       id: get-branch-name
 
